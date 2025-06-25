@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ツイート表示アプリ</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; text-align: center; background: #f5f7fa; }
+    input { width: 60%; padding: 0.6em; font-size: 1rem; }
+    button { padding: 0.6em 1.2em; margin-left: 1em; background-color: #1DA1F2; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    #output { margin-top: 2em; }
+  </style>
+</head>
+<body>
+  <h1>好きなツイートを表示しよう</h1>
+  <input id="tweetUrl" type="text" placeholder="ツイートのURLを入力してください" />
+  <button onclick="fetchTweet()">表示</button>
+  <div id="output"></div>
+
+  <script>
+    async function fetchTweet() {
+      const url = document.getElementById('tweetUrl').value;
+      const output = document.getElementById('output');
+      output.innerHTML = '読み込み中...';
+      const res = await fetch(`/api/tweet?url=${encodeURIComponent(url)}`);
+      const data = await res.json();
+      output.innerHTML = data.html;
+      // Twitter の埋め込みスクリプトを再読み込み
+      const script = document.createElement('script');
+      script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
+      script.setAttribute('async', '');
+      document.body.appendChild(script);
+    }
+  </script>
+</body>
+</html>

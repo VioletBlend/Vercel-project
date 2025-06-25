@@ -1,0 +1,6 @@
+{
+  "name": "埋め込みツイート表示",
+  "dependencies": {
+    "node-fetch": "^2.6.9"
+  }
+}
